@@ -19,7 +19,9 @@ app.use('/', require('./routes/root'))
 app.use('/auth/v1', require('./routes/auth/authRoute'))
 app.use('/register/v1', require('./routes/auth/registerRoute'))
 
-// app.use(verifyJWT)
+app.use(verifyJWT)
+
+app.use('/posts/create-post', require('./routes/posts/createPost'))
 
 mongoose.connection.on('open', () => {
     console.log('Connected to Database successfully');
