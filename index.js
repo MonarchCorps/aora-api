@@ -21,6 +21,7 @@ app.use('/register/v1', require('./routes/auth/registerRoute'))
 
 app.use(verifyJWT)
 
+app.use('/posts/fetch-all-post', require('./routes/posts/fetchAllPosts'))
 app.use('/posts/create-post', require('./routes/posts/createPost'))
 
 mongoose.connection.on('open', () => {
