@@ -23,6 +23,7 @@ app.use(verifyJWT)
 
 app.use('/posts/fetch-all-post', require('./routes/posts/fetchAllPosts'))
 app.use('/posts/create-post', require('./routes/posts/createPost'))
+app.use('/posts/trending-post', require('./routes/posts/trendingPosts'))
 
 mongoose.connection.on('open', () => {
     console.log('Connected to Database successfully');
