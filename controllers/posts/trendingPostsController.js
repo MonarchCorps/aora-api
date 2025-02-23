@@ -2,6 +2,8 @@ const Post = require('../../models/Post')
 
 const trendingPosts = async (req, res) => {
     const { limit } = req.params
+    if (!limit)
+        return res.status(400).json({ message: "Limit is required" })
 
     try {
         const trendingPosts =
