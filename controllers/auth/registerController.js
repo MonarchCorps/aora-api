@@ -2,6 +2,7 @@ const User = require('../../models/User')
 const bcrypt = require('bcryptjs')
 const { generateRefreshToken, generateAccessToken } = require('../../utils/tokens')
 const { getUserDetails } = require('../../utils/getUserDetails')
+const uploadAvatar = require('../../utils/uploadAvatar')
 
 const register = async (req, res) => {
     const { name, email, password } = req.body
@@ -14,30 +15,34 @@ const register = async (req, res) => {
                 { name },
                 { email }
             ]
-        })
+        });
 
         if (duplicateDetails)
-            return res.status(400).json({ message: "Email or name is already in use!" })
+            return res.status(400).json({ message: "Email or name is already in use!" });
 
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const avatarUrl = await uploadAvatar(name);
+
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await User.create({
             name,
             email,
-            password: hashedPassword
-        })
+            password: hashedPassword,
+            avatar: avatarUrl
+        });
 
-        const refreshToken = generateRefreshToken(newUser._id)
-        const accessToken = generateAccessToken(newUser._id)
-        const userDetails = getUserDetails(newUser)
+        const refreshToken = generateRefreshToken(newUser._id);
+        const accessToken = generateAccessToken(newUser._id);
+        const userDetails = getUserDetails(newUser);
 
         res.status(200).json({
             userDetails,
             refreshToken,
             accessToken
-        })
+        });
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({
             message: "Failed to create account",
             error: error.message
