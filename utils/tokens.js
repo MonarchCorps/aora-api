@@ -1,17 +1,25 @@
 const jwt = require("jsonwebtoken");
 
 const generateAccessToken = (userId) => {
-    const accessToken = jwt.sign(
-        {
-            userId: userId
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-            expiresIn: "100d"
-        }
-    );
+    try {
+        const accessToken = jwt.sign(
+            {
+                userId: userId
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+                expiresIn: "15m"
+            }
+        );
 
-    return accessToken
+        return accessToken
+    } catch (error) {
+        console.error(
+            "Error generating access token:",
+            error
+        );
+        return "";
+    }
 }
 
 const generateRefreshToken = (userId) => {
@@ -22,7 +30,7 @@ const generateRefreshToken = (userId) => {
             },
             process.env.REFRESH_TOKEN_SECRET,
             {
-                expiresIn: "365d"
+                expiresIn: "100d"
             }
         );
     } catch (error) {
