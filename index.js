@@ -21,9 +21,9 @@ app.use('/register/v1', require('./routes/auth/registerRoute'))
 
 app.use(verifyJWT)
 
-app.use('/posts/fetch-all-post', require('./routes/posts/fetchAllPosts'))
-app.use('/posts/create-post', require('./routes/posts/createPost'))
-app.use('/posts/trending-post', require('./routes/posts/trendingPosts'))
+app.use('/posts/fetch-all-post', require('./routes/posts/fetchAllPostsRoute'))
+app.use('/posts/create-post', require('./routes/posts/createPostRoute'))
+app.use('/posts/trending-post', require('./routes/posts/trendingPostsRoute'))
 
 mongoose.connection.on('open', () => {
     console.log('Connected to Database successfully');
