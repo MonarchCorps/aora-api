@@ -17,6 +17,7 @@ const fetchAllPosts = async (req, res) => {
                     _id: 1,
                     userId: 1,
                     creator: {
+                        _id: "$userDetails._id",
                         username: "$userDetails.name",
                         avatar: "$userDetails.avatar"
                     },
