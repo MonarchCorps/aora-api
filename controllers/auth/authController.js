@@ -8,7 +8,6 @@ const login = async (req, res) => {
     const { state, password } = req.body
     if (!state || !password)
         return res.status(400).json({ message: "All fields are required" })
-    console.log(state)
 
     try {
         const user = await User.findOne({
@@ -51,21 +50,15 @@ const refreshToken = async (req, res) => {
         return res.status(400).json({ message: "Refresh token is required" })
 
     try {
-        const { err, decoded } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
-        if (err)
-            return res.status(401).json({ message: "Invalid refresh token" })
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
 
         const user = await User.findById(decoded.userId);
         if (!user)
             return res.status(404).json({ message: "User not found" });
 
         const accessToken = generateAccessToken(user._id)
-        const userDetails = getUserDetails(user)
 
-        res.status(200).json({
-            userDetails,
-            accessToken
-        })
+        res.status(200).json(accessToken)
 
     } catch (error) {
         res.status(500).json({
